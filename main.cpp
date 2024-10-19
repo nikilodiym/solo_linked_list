@@ -3,70 +3,78 @@
 
 using namespace std;
 
-template<typename T>
-class Node {
-public:
-    T data;
-    Node* next;
-    Node(T value) : data(value), next(nullptr) {}
-};
+namespace Struct {
+    template<typename T>
+    class Node {
+    public:
+        T data;
+        Node* next;
+        Node(T value) : data(value), next(nullptr) {}
+    };
 
-template<typename T>
-class Stack {
-private:
-    Node<T>* top;
-    int size;
+    template<typename T>
+    class Stack {
+    private:
+        Node<T>* top;
+        int size;
 
-public:
-    Stack() : top(nullptr), size(0) {}
+    public:
+        Stack() : top(nullptr), size(0) {}
 
-    void push(T value) {
-        Node<T>* newNode = new Node<T>(value);
-        newNode->next = top;
-        top = newNode;
-        size++;
-    }
-
-    void pop() {
-        if (isEmpty()) {
-            cout << "Stack is empty." << endl;
-            return;
+        void push(T value) {
+            Node<T>* newNode = new Node<T>(value);
+            newNode->next = top;
+            top = newNode;
+            size++;
         }
-        Node<T>* temp = top;
-        top = top->next;
-        delete temp;
-        size--;
-    }
 
-    T peek() {
-        if (isEmpty()) {
-            throw out_of_range("Stack is empty.");
+        void pop() {
+            if (isEmpty()) {
+                cout << "Stack is empty." << endl;
+                return;
+            }
+            Node<T>* temp = top;
+            top = top->next;
+            delete temp;
+            size--;
         }
-        return top->data;
-    }
 
-    bool isEmpty() const {
-        return top == nullptr;
-    }
-
-    int getSize() const {
-        return size;
-    }
-
-    void clear() {
-        while (!isEmpty()) {
-            pop();
+        T peek() {
+            if (isEmpty()) {
+                throw out_of_range("Stack is empty.");
+            }
+            return top->data;
         }
-    }
 
-    ~Stack() {
-        clear();
-    }
-};
+        bool isEmpty() const {
+            return top == nullptr;
+        }
+
+        int getSize() const {
+            return size;
+        }
+
+        void clear() {
+            while (!isEmpty()) {
+                pop();
+            }
+        }
+
+        ~Stack() {
+            clear();
+        }
+    };
+
+    class Helper {
+    public:
+        static void printMessage(const string& message) {
+            cout << message << endl;
+        }
+    };
+}
 
 int main() {
-    Stack<int> stack;
-
+    Struct::Stack<int> stack;
     stack.push(10);
     stack.push(20);
     stack.push(30);
@@ -78,6 +86,7 @@ int main() {
 
     stack.clear();
     cout << "Stack size after clear: " << stack.getSize() << endl;
+    Struct::Helper::printMessage("Stack operations complete.");
 
     system("pause");
     return 0;
